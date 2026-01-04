@@ -194,7 +194,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 2.4973, y: 42.6191}
+  m_AnchoredPosition: {x: 2.4973, y: 50.3}
   m_SizeDelta: {x: 150.2542, y: 33.4615}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1511106496074446200
@@ -227,7 +227,7 @@ MonoBehaviour:
       m_Calls: []
   m_text: Cash
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 00beb8da6de87254d927c426211395a0, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d930fc54e6c5db949b9c9ad684d0e012, type: 2}
   m_sharedMaterial: {fileID: 4359102917634668870, guid: d930fc54e6c5db949b9c9ad684d0e012, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -536,8 +536,8 @@ RectTransform:
   m_GameObject: {fileID: 8466978964297911217}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.2, y: 1.2, z: 1.2}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 6743659013774017066}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
