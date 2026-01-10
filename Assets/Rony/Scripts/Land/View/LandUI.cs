@@ -79,16 +79,29 @@ public class LandUI : MonoBehaviour
             // Scenario: Land is owned and has building
             if (landData.CurrentBuilding != null)
             {
-                level.text = landData.CurrentBuilding.Level.ToString();
-                currentTanents.text = landData.CurrentBuilding.currentTenants.ToString();
+                // Fetch the live data from the Service using the PlotID
+                BuildingData bData = BuildingService.Instance.GetBuildingData(landData.PlotID);
 
-                // Example: Create an "Upgrade" panel if owned
-                CreateDetailButtonPanel(
-                    "Building Info",
-                    "Manage your tenants and upgrades here.",
-                    "Upgrade Building",
-                    () => Debug.Log("Upgrade logic here")
-                );
+                if (bData != null)
+                {
+                    string statsInfo = $"Level: {bData.Level} | Tenants: {bData.CurrentTenants}\n" +
+                                       $"Stored: <color={UIColors.MoneyGreen}>${bData.StoredIncome:N2}</color>";
+
+                    CreateDetailButtonPanel(
+                        "Building Info",
+                        statsInfo,
+                        "Upgrade Building",
+                        () => BuildingService.Instance.UpgradeBuilding(landData.PlotID)
+                    );
+
+                    // You could also add a Collect Rent button here
+                    CreateDetailButtonPanel(
+                        "Revenue",
+                        "Collect accumulated rent.",
+                        "Collect Cash",
+                        () => BuildingService.Instance.CollectRent(landData.PlotID)
+                    );
+                }
             }
         }
     }

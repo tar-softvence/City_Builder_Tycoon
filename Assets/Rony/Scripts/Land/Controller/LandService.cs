@@ -151,21 +151,15 @@ public class LandService : MonoBehaviour
         if (_economyService.TrySpend(CurrencyType.Cash, cost))
         {
             // Instantiate the building prefab as a child of the land
-            GameObject buildingPrefab = Instantiate(buildingData.BuildingPrefab, land.transform);
-            Building building = buildingPrefab.GetComponent<Building>();
-
-            // Initialize the building with the land data
+            GameObject prefab = Instantiate(buildingData.BuildingPrefab, land.transform);
+            Building building = prefab.GetComponent<Building>();
+            // Pass the land and data SO for visual setup
             building.Initialize(land, buildingData);
 
-            // Update the land data with the new building
-            landData.CurrentBuilding = new BuildingData
-            {
-                Level = 1, // Set level to 1 for the first building
-                CurrentTenants = buildingData.InitialTenants,
-                StoredIncome = 0 // No income initially
-            };
+            // Register in the Service!
+            BuildingService.Instance.RegisterNewBuilding(land.PlotID, building, buildingData);
 
-            Debug.Log($"Building construction successful on {land.PlotID}");
+            EventBus<LandEvent>.Raise(new LandEvent(land, LandEventType.BuildingConstructed));
 
             // Raise the event that the building has been constructed
             EventBus<LandEvent>.Raise(new LandEvent(land, LandEventType.BuildingConstructed));
