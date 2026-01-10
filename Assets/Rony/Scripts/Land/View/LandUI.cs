@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class LandUI : MonoBehaviour
@@ -17,42 +18,91 @@ public class LandUI : MonoBehaviour
     [SerializeField] Button BuyButton;
     [SerializeField] GameObject buyButtonParentPanel;
 
+    [Header("Detail Panel Settings")]
+    [SerializeField] DetailButtonPanel detailButtonPanelPrefab;
+    [SerializeField] Transform detailButtonPanelParent; // The container
+    private DetailButtonPanel activeDetailButtonPanel;
+
+    private GameBalanceConfig Config => GameManager.Instance.BalanceConfig;
+
+
     Land thisLand;
 
     bool isLandOwned;
     Building currentBuilding = null;
 
 
+
+
     public void Setup(Land landData)
     {
+        thisLand = landData;
         landName.text = landData.gameObject.name;
         landTier.text = LandGradeToText(landData.Data.Grade);
         isLandOwned = landData.IsOwned;
-        thisLand = landData;
         currentBuilding = landData.CurrentBuilding;
 
-        if (!isLandOwned)
-        {
-            buyButtonParentPanel.gameObject.SetActive(true);
-            BuyButton.onClick.AddListener(RaiseLandTryPurchaseEvent);
-        }
+        // Clear old panels before redrawing
+        cleanupDetailsPanel();
 
-        if (isLandOwned)
+        if (!landData.IsOwned)
         {
-            buyButtonParentPanel.gameObject.SetActive(false);
-            if (currentBuilding != null)
+            double cost = GameMath.CalculateLandCost(Config, landData.Data.Grade);
+
+            // We use the <color="green"> or <color=#HexCode> tag here
+            string priceText = $"Price: <color={UIColors.MoneyGreen}>{cost}$</color>";
+
+            CreateDetailButtonPanel(
+                "Property Available",
+                $"{priceText} - Tier: {landData.Data.Grade}",
+                "Purchase Land",
+                RaiseLandTryPurchaseEvent
+            );
+        }
+        else
+        {
+
+            //Scenario: Land is owned but no building yet
+
+            if (landData.CurrentBuilding == null)
+            {
+                double cost = GameMath.CalculateBuildingCost(Config, landData.Data.Grade);
+                string priceText = $"Price: <color={UIColors.MoneyGreen}>{cost}$</color>";
+
+                CreateDetailButtonPanel(
+                "Build A Building",
+                $"{priceText}",
+                "Build Building",
+                RaiseTryConstructBuilding
+            );
+            }
+            // Scenario: Land is owned and has building
+            if (landData.CurrentBuilding != null)
             {
                 level.text = landData.CurrentBuilding.Level.ToString();
                 currentTanents.text = landData.CurrentBuilding.currentTenants.ToString();
-            }
 
+                // Example: Create an "Upgrade" panel if owned
+                CreateDetailButtonPanel(
+                    "Building Info",
+                    "Manage your tenants and upgrades here.",
+                    "Upgrade Building",
+                    () => Debug.Log("Upgrade logic here")
+                );
+            }
         }
     }
 
     public void RaiseLandTryPurchaseEvent()
     {
         Debug.Log("Buy Button pressed");
-        EventBus<LandEvent>.Raise(new LandEvent(thisLand, LandEventType.TryPurchase));
+        EventBus<LandEvent>.Raise(new LandEvent(thisLand, LandEventType.Purchased));
+    }
+
+    public void RaiseTryConstructBuilding()
+    {
+        Debug.Log("Build Building Button Pressed");
+        EventBus<LandEvent>.Raise(new LandEvent(thisLand, LandEventType.TryConstructBuilding));
     }
 
     public string LandGradeToText(LandGrade grade)
@@ -76,6 +126,23 @@ public class LandUI : MonoBehaviour
         {
             // Re-run setup with the updated land data
             Setup(thisLand);
+        }
+    }
+
+
+
+    //Detail Button Creation Helper
+    void CreateDetailButtonPanel(string title, string info, string btnLabel, UnityAction action)
+    {
+        activeDetailButtonPanel = Instantiate(detailButtonPanelPrefab, detailButtonPanelParent);
+        activeDetailButtonPanel.Setup(title, info, btnLabel, action);
+    }
+
+    void cleanupDetailsPanel()
+    {
+        if (activeDetailButtonPanel != null)
+        {
+            Destroy(activeDetailButtonPanel.gameObject);
         }
     }
 }

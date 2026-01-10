@@ -15,4 +15,6 @@ MonoBehaviour:
   Grade: 0
   NotOwnedLandPrefab: {fileID: 0}
   OwnedLandPrefab: {fileID: 0}
-  BuildingLevels: []
+  BuildingLevels:
+  - {fileID: 11400000, guid: c37190253c4ce894892665fc95a62164, type: 2}
+  - {fileID: 11400000, guid: c2548d5ecb4cd104ca2f8974e9e6d688, type: 2}

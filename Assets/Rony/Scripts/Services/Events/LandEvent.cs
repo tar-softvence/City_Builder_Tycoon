@@ -5,6 +5,7 @@ public enum LandEventType
     Deselected,
     TryPurchase,
     Purchased,
+    TryConstructBuilding,
     BuildingConstructed
 }
 

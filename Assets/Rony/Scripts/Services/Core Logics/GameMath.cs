@@ -8,6 +8,11 @@ public static class GameMath
         return config.BaseLandPrice * config.GetLandMultiplier(grade);
     }
 
+    public static double CalculateBuildingCost(GameBalanceConfig config, LandGrade grade)
+    {
+        return config.BaseBuildingCost * config.GetLandMultiplier(grade);
+    }
+
     public static double CalculateUpgradeCost(GameBalanceConfig config, int currentLevel)
     {
         return config.BaseBuildingCost * Mathf.Pow(config.UpgradeCostExponent, currentLevel - 1);
