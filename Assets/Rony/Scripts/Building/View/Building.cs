@@ -8,6 +8,7 @@ public class Building : MonoBehaviour, ISelectable
 {
 
     public Land ParentLand { get; private set; }
+    public BuildingDataSO Data { get; private set; } // Reference to the SO
 
     [Header("Level & Growth")]
     public int Level = 1;
@@ -22,15 +23,23 @@ public class Building : MonoBehaviour, ISelectable
     /// <summary>
     /// Links the building to its specific plot of land.
     /// </summary>
-    public void Initialize(Land land)
+    public void Initialize(Land land, BuildingDataSO buildingData)
     {
         ParentLand = land;
-    }
+        Data = buildingData;
 
-    private void Start()
-    {
+        // Apply initial stats from the SO
+        if (Data != null)
+        {
+            this.Level = Data.Level;
+            this.currentTenants = Data.InitialTenants;
+        }
+
+        // Recalculate dynamic limits based on the new Level/Data
         RecalculateStats();
     }
+
+
 
     // Call this whenever Level changes
     public void RecalculateStats()

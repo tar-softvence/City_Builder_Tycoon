@@ -96,7 +96,7 @@ public class LandUI : MonoBehaviour
     public void RaiseLandTryPurchaseEvent()
     {
         Debug.Log("Buy Button pressed");
-        EventBus<LandEvent>.Raise(new LandEvent(thisLand, LandEventType.Purchased));
+        EventBus<LandEvent>.Raise(new LandEvent(thisLand, LandEventType.TryPurchase));
     }
 
     public void RaiseTryConstructBuilding()

@@ -20,7 +20,7 @@ public class GameBalanceConfig : ScriptableObject
     [Header("Tenant Settings")]
     public int BaseTenantCount = 5;
     [Tooltip("How many extra tenants per level? (e.g. 2 means Level 2 has 7 tenants)")]
-    public int TenantsPerLevel = 2;
+    public int TenantsPerLevel = 100;
 
     [Header("Storage Limit Settings")]
     public float BaseIncomeLimit = 1000f;
