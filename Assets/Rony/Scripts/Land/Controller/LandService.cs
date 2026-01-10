@@ -40,6 +40,9 @@ public class LandService : MonoBehaviour
             case LandEventType.TryPurchase:
                 AttemptPurchaseLand(data.Subject);
                 break;
+            case LandEventType.TryConstructBuilding:
+                AttemptConstructBuilding(data.Subject);
+                break;
         }
     }
 
@@ -114,6 +117,62 @@ public class LandService : MonoBehaviour
         else
         {
             Debug.Log("Insufficient balance");
+        }
+    }
+
+    private void AttemptConstructBuilding(Land land)
+    {
+        if (land == null) return;
+
+        // 1. Validate State
+        LandData landData = GetData(land.PlotID);
+
+        // Must be owned and NOT already have a building
+        if (landData == null || !landData.IsOwned || landData.CurrentBuilding != null)
+        {
+            Debug.LogWarning($"Cannot build on {land.PlotID}. Owned: {landData.IsOwned}, HasBuilding: {landData.CurrentBuilding != null}");
+            return;
+        }
+
+        // Get the building data from the BuildingLevels list in LandDataSO (Land's associated scriptable object)
+        BuildingDataSO buildingData = land.Data.BuildingLevels[0]; // Assuming level 0 is the first building level
+
+        // Check if we have a building prefab
+        if (buildingData?.BuildingPrefab == null)
+        {
+            Debug.LogWarning($"No building prefab found for {land.PlotID}");
+            return;
+        }
+
+        // 2. Calculate Cost (Level 1 Cost)
+        double cost = GameMath.CalculateBuildingCost(Config, landData.Grade);
+
+        // Handle transaction: check if the player has enough money
+        if (_economyService.TrySpend(CurrencyType.Cash, cost))
+        {
+            // Instantiate the building prefab as a child of the land
+            GameObject buildingPrefab = Instantiate(buildingData.BuildingPrefab, land.transform);
+            Building building = buildingPrefab.GetComponent<Building>();
+
+            // Initialize the building with the land data
+            building.Initialize(land, buildingData);
+
+            // Update the land data with the new building
+            landData.CurrentBuilding = new BuildingData
+            {
+                Level = 1, // Set level to 1 for the first building
+                CurrentTenants = buildingData.InitialTenants,
+                StoredIncome = 0 // No income initially
+            };
+
+            Debug.Log($"Building construction successful on {land.PlotID}");
+
+            // Raise the event that the building has been constructed
+            EventBus<LandEvent>.Raise(new LandEvent(land, LandEventType.BuildingConstructed));
+        }
+        else
+        {
+            Debug.Log("Insufficient funds to construct building.");
         }
     }
 
