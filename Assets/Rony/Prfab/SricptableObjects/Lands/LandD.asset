@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LandDataSO
   Grade: 3
   NotOwnedLandPrefab: {fileID: 2048824594785146848, guid: c339d61d58741c5498d45d94e43c5a81, type: 3}
-  OwnedLandPrefab: {fileID: 6709229083305298479, guid: 6baba809851eff74bbccadc22414a5bd, type: 3}
+  OwnedLandPrefab: {fileID: 2048824594785146848, guid: ad995ccfbfdacc048bf2595ebf4e65ba, type: 3}
   BuildingLevels: []

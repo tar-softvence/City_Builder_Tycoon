@@ -191,8 +191,6 @@ GameObject:
   - component: {fileID: 3568217583103993524}
   - component: {fileID: 8766830501071842982}
   - component: {fileID: 5311446755762360810}
-  - component: {fileID: 5283005160809513446}
-  - component: {fileID: 9021253931559121514}
   m_Layer: 0
   m_Name: Natures_Grass Tile (30)
   m_TagString: Untagged
@@ -281,46 +279,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &5283005160809513446
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2048824594785146848}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 20, y: 1, z: 20}
-  m_Center: {x: 0, y: 0.00000043711393, z: 0}
---- !u!114 &9021253931559121514
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2048824594785146848}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89fa7847bdcb02148a86fbad643921df, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Land
-  PlotID: 01
-  Grade: 0
-  IsOwned: 0
-  _currentBuilding: {fileID: 0}
-  nonOwnedLandPrefab: {fileID: 0}
-  ownedLandPrefab: {fileID: 0}
-  selectionSprite: {fileID: 0}
 --- !u!1 &3617663301124515403
 GameObject:
   m_ObjectHideFlags: 0

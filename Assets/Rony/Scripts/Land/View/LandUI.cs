@@ -26,7 +26,7 @@ public class LandUI : MonoBehaviour
     public void Setup(Land landData)
     {
         landName.text = landData.gameObject.name;
-        landTier.text = LandGradeToText(landData.Grade);
+        landTier.text = LandGradeToText(landData.Data.Grade);
         isLandOwned = landData.IsOwned;
         thisLand = landData;
         currentBuilding = landData.CurrentBuilding;
