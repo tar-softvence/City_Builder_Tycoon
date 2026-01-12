@@ -60,6 +60,18 @@ public class BuildingService : MonoBehaviour
         //SHOULD BE DONE BY EARNING SERVICE CLASS
     }
 
+    public Dictionary<string, BuildingData> GetAllBuildings()
+    {
+        return _buildingDatabase;
+    }
+
+    public void RefreshBuildingView(string plotID)
+    {
+        if (_activeViews.TryGetValue(plotID, out var view))
+            view.UpdateView(_buildingDatabase[plotID]);
+    }
+
+
     private void ProcessIncome(BuildingData data, float deltaTime)
     {
         double limit = GameMath.CalculateIncomeLimit(Config, data.Level);
