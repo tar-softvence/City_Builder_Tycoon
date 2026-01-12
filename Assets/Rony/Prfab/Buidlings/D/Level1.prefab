@@ -118,7 +118,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8464578348076511243
 Transform:
   m_ObjectHideFlags: 0
@@ -282,6 +282,7 @@ GameObject:
   - component: {fileID: 3510026388995532941}
   - component: {fileID: 1818486122471482525}
   - component: {fileID: 6243314816122661929}
+  - component: {fileID: 7039142319866294454}
   m_Layer: 0
   m_Name: Level1
   m_TagString: Untagged
@@ -398,6 +399,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Building
   CurrentLevel: 0
   VisualIncome: 0
+  ui: {fileID: 7039142319866294454}
+  PlotID: 0
+--- !u!114 &7039142319866294454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3874174391067450006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32cbcdde68950784b8e0844114e9e2c0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIBuilding
+  fillBar: {fileID: 7261613308069582993}
+  fullSign: {fileID: 2016432378024383711}
 --- !u!1 &5389277322199131156
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,7 +485,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 1
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0

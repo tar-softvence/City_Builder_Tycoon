@@ -12,11 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c30c1da8112d10c45a3fe7c2b81689ef, type: 3}
   m_Name: BalanceConfig
   m_EditorClassIdentifier: Assembly-CSharp::GameBalanceConfig
+  BaseLandPrice: 500
+  BaseBuildingCost: 1000
   GradeAMultiplier: 4
   GradeBMultiplier: 3
   GradeCMultiplier: 2
   GradeDMultiplier: 1
-  GlobalBaseRent: 50
+  BaseRent: 50
   RentLevelGrowth: 0.1
+  tickInterval: 1
+  BaseTenantCount: 5
+  TenantsPerLevel: 100
+  BaseIncomeLimit: 1000
+  IncomeLimitExponent: 1.25
   MaintenanceLevelGrowth: 0.05
   UpgradeCostExponent: 1.2
