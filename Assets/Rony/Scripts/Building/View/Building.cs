@@ -14,6 +14,14 @@ public class Building : MonoBehaviour, ISelectable
     [Header("Display Stats (Read Only)")]
     public int CurrentLevel;
     public double VisualIncome;
+    [SerializeField] private UIBuilding ui;
+
+    public string PlotID;
+
+    public void ApplyData(BuildingData data)
+    {
+        ui.UpdateUI(data);
+    }
 
     /// <summary>
     /// Links the building to its specific plot of land.

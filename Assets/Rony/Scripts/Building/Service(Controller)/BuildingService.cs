@@ -67,9 +67,13 @@ public class BuildingService : MonoBehaviour
 
     public void RefreshBuildingView(string plotID)
     {
-        if (_activeViews.TryGetValue(plotID, out var view))
-            view.UpdateView(_buildingDatabase[plotID]);
+        if (_activeViews.TryGetValue(plotID, out Building view) &&
+            _buildingDatabase.TryGetValue(plotID, out BuildingData data))
+        {
+            view.ApplyData(data);
+        }
     }
+
 
 
     private void ProcessIncome(BuildingData data, float deltaTime)
@@ -220,6 +224,8 @@ public class BuildingService : MonoBehaviour
         view.ParentLand.SetBuilding(view);
         view.UpdateView(GetBuildingData(plotID));
     }
+
+
 
 
 

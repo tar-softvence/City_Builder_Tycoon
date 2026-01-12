@@ -282,7 +282,7 @@ GameObject:
   - component: {fileID: 3510026388995532941}
   - component: {fileID: 1818486122471482525}
   - component: {fileID: 6243314816122661929}
-  - component: {fileID: 4528851696825068542}
+  - component: {fileID: 7039142319866294454}
   m_Layer: 0
   m_Name: Level1
   m_TagString: Untagged
@@ -399,7 +399,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Building
   CurrentLevel: 0
   VisualIncome: 0
---- !u!114 &4528851696825068542
+  ui: {fileID: 7039142319866294454}
+  PlotID: 0
+--- !u!114 &7039142319866294454
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -413,7 +415,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::UIBuilding
   fillBar: {fileID: 7261613308069582993}
   fullSign: {fileID: 2016432378024383711}
-  updateInterval: 1
 --- !u!1 &5389277322199131156
 GameObject:
   m_ObjectHideFlags: 0
@@ -484,7 +485,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 0
-  m_FillAmount: 0.553
+  m_FillAmount: 0
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
