@@ -38,4 +38,16 @@ public static class GameMath
     {
         return config.BaseIncomeLimit * Mathf.Pow(config.IncomeLimitExponent, level - 1);
     }
+
+    public static float CalculateTimeToFull(GameBalanceConfig config, int level, int currentTenants, float tickInterval)
+    {
+        double rent = CalculateRentPerTenant(config, level);
+        double maxIncome = CalculateIncomeLimit(config, level);
+        double incomePerTick = rent * currentTenants;
+
+        if (incomePerTick <= 0) return 0f; // Avoid divide by zero
+
+        double ticksToFull = maxIncome / incomePerTick;
+        return (float)(ticksToFull * tickInterval);
+    }
 }

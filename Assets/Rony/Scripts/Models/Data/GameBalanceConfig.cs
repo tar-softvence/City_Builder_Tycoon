@@ -16,6 +16,7 @@ public class GameBalanceConfig : ScriptableObject
     [Header("Rent & Income Settings")]
     public float BaseRent = 50f;
     public float RentLevelGrowth = 0.1f; // 10% increase per level
+    public float tickInterval = 10f;
 
     [Header("Tenant Settings")]
     public int BaseTenantCount = 5;

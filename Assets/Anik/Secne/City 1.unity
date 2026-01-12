@@ -3750,7 +3750,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d71a78f454b34e94ba30e5ee211d26b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EarningService
-  tickInterval: 5
 --- !u!1 &1755363523
 GameObject:
   m_ObjectHideFlags: 0
