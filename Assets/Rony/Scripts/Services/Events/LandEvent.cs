@@ -6,7 +6,11 @@ public enum LandEventType
     TryPurchase,
     Purchased,
     TryConstructBuilding,
-    BuildingConstructed
+    BuildingConstructed,
+
+    //------ Building Events---------
+    TryUpgradeBuilding,
+    BuildingUpgraded
 }
 
 // 2. The single struct that handles ALL Land events

@@ -43,10 +43,19 @@ public class Building : MonoBehaviour, ISelectable
     public void OnSelect()
     {
         // Logic: Trigger UI Manager to show the Building Management Panel
+
+        if (ParentLand != null)
+        {
+            ParentLand.OnSelect();
+        }
     }
 
     public void OnDeSelect()
     {
         // Logic: Close the Management Panel
+        if (ParentLand != null)
+        {
+            ParentLand.OnDeSelect();
+        }
     }
 }

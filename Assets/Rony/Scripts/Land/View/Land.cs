@@ -43,6 +43,8 @@ public class Land : MonoBehaviour, ISelectable
         CreateVisualInstances();
     }
 
+
+
     private void CreateVisualInstances()
     {
         if (landData == null) return;
@@ -66,6 +68,13 @@ public class Land : MonoBehaviour, ISelectable
     {
         this.IsOwned = ownershipStatus;
         RefreshVisuals();
+    }
+
+    public void SetBuilding(Building building)
+    {
+        _currentBuilding = building;
+        // Optional: Refresh visuals if the building affects the land's appearance
+
     }
 
     private void RefreshVisuals()

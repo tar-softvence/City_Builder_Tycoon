@@ -170,5 +170,7 @@ public class LandService : MonoBehaviour
         }
     }
 
+
+
     public LandData GetData(string id) => _landDatabase.TryGetValue(id, out var data) ? data : null;
 }
