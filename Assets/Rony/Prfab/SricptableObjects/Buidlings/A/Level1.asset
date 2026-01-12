@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level1
   m_EditorClassIdentifier: Assembly-CSharp::BuildingDataSO
   Level: 1
-  BuildingPrefab: {fileID: 0}
-  BuildingUISprite: {fileID: 0}
+  BuildingPrefab: {fileID: 3874174391067450006, guid: ee123a9170bd7fa48a91901d464c0e6e, type: 3}
+  BuildingUISprite: {fileID: 21300000, guid: 100146d781db43743b68d3a774c1da2c, type: 3}
   MaxTenants: 100
   InitialTenants: 5

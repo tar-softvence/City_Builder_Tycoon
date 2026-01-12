@@ -5,5 +5,8 @@ public class BuildingData
     public int Level = 1;
     public int CurrentTenants;
     public double StoredIncome;
-    public bool HasManager; // For your manager logic
+    public bool HasManager;
+    public double MaxIncomeStorage;
+
+    public GameBalanceConfig Config; // <--- Add this
 }
