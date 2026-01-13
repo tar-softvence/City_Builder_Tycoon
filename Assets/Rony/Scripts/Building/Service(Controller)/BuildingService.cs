@@ -225,6 +225,72 @@ public class BuildingService : MonoBehaviour
         view.UpdateView(GetBuildingData(plotID));
     }
 
+    /// <summary>
+    /// Reconstructs a building from Save Data (No cost, no construction event)
+    /// </summary>
+    public void LoadSavedBuilding(Land land, BuildingSaveData saveData)
+    {
+        // 1. Validate Level Index
+        // Note: Level 1 is index 0. If save says Level 1, we want index 0.
+        int levelIndex = saveData.Level - 1;
+
+        // Safety check to ensure the level exists in the Land's config
+        if (levelIndex < 0 || levelIndex >= land.Data.BuildingLevels.Count)
+        {
+            Debug.LogError($"[BuildingService] Save data has invalid level {saveData.Level} for {land.PlotID}. Defaulting to Level 1.");
+            levelIndex = 0;
+        }
+
+        // 2. Get the specific data for this level (Prefab, Visuals, etc.)
+        BuildingDataSO targetSO = land.Data.BuildingLevels[levelIndex];
+
+        // 3. Instantiate the Visual View
+        GameObject prefab = Instantiate(targetSO.BuildingPrefab, land.transform);
+        Building view = prefab.GetComponent<Building>();
+
+        // Initialize the view scripts
+        view.Initialize(land, targetSO);
+
+        // 4. Reconstruct the Data Model (The Truth)
+        // We manually populate this with the values from the Save File
+        BuildingData newData = new BuildingData
+        {
+            ParentPlotID = land.PlotID,
+            Level = saveData.Level,
+            CurrentTenants = saveData.CurrentTenants,
+            StoredIncome = saveData.StoredIncome,
+            LocalMultiplier = saveData.LocalMultiplier,
+            BoostTimeRemaining = saveData.BoostTimeRemaining,
+            // Calculate Max storage based on level immediately
+            MaxIncomeStorage = GameMath.CalculateIncomeLimit(Config, saveData.Level)
+        };
+
+        // 5. Register in the Service's dictionaries
+        if (_buildingDatabase.ContainsKey(land.PlotID))
+        {
+            _buildingDatabase[land.PlotID] = newData;
+        }
+        else
+        {
+            _buildingDatabase.Add(land.PlotID, newData);
+        }
+
+        if (_activeViews.ContainsKey(land.PlotID))
+        {
+            _activeViews[land.PlotID] = view;
+        }
+        else
+        {
+            _activeViews.Add(land.PlotID, view);
+        }
+
+        // 6. Final Linkups
+        land.SetBuilding(view);
+        view.UpdateView(newData);
+    }
+
+
+
 
 
 

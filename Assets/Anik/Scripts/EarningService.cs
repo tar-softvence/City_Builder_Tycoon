@@ -14,6 +14,9 @@ public class EarningService : MonoBehaviour
     private float _globalMultiplier = 1.0f;
     private Coroutine _globalBoostCoroutine;
 
+    // Enum for Time Periods
+    public enum TimePeriod { Second, Minute, Hour }
+
 
     private void Awake()
     {
@@ -68,6 +71,8 @@ public class EarningService : MonoBehaviour
                     data.BoostTimeRemaining = 0;
                     data.LocalMultiplier = 1.0; // Reset when time runs out
                     Debug.Log($"Boost ended for {data.ParentPlotID}");
+                    // Optional: Refresh UI to remove boost icon
+                    buildingService.RefreshBuildingView(data.ParentPlotID);
                 }
             }
 
@@ -147,7 +152,54 @@ public class EarningService : MonoBehaviour
 
     // --- 3. PREDICTION & STATS ---
 
-    public enum TimePeriod { Second, Minute, Hour }
+    public double CalculateCurrentRate(BuildingData data)
+    {
+        if (data == null) return 0;
+
+        // Perform the math manually for the UI
+        double rent = GameMath.CalculateRentPerTenant(Config, data.Level);
+        double totalMultiplier = _globalMultiplier * data.LocalMultiplier;
+        return rent * data.CurrentTenants * totalMultiplier;
+    }
+
+
+    /// <summary>
+    /// Returns the current earning rate for a specific building/plot.
+    /// Includes all active Global and Local multipliers.
+    /// </summary>
+    public double GetBuildingIncomeRate(string plotID, TimePeriod period)
+    {
+        // 1. Get Data
+        var data = buildingService.GetBuildingData(plotID);
+        if (data == null) return 0;
+
+        // 2. Get Base Rate (Per Second)
+        // We use the cached value because it already includes:
+        // - Tenant Count
+        // - Global Multiplier
+        // - Local Multiplier
+        double ratePerSec = data.CachedIncomeRatePerSec;
+
+        // Safety: If result is invalid or infinite, return 0
+        if (double.IsNaN(ratePerSec) || double.IsInfinity(ratePerSec))
+            return 0;
+
+        // FIX: If the loop hasn't run yet, calculate it on the fly
+        if (ratePerSec <= 0 && data.CurrentTenants > 0)
+        {
+            ratePerSec = CalculateCurrentRate(data);
+        }
+
+        // 3. Scale by Period
+        switch (period)
+        {
+            case TimePeriod.Minute: return ratePerSec * 60;
+            case TimePeriod.Hour: return ratePerSec * 3600;
+            default: return ratePerSec; // Second
+        }
+    }
+
+
 
     public double GetTotalIncome(TimePeriod period)
     {
@@ -157,11 +209,17 @@ public class EarningService : MonoBehaviour
 
         foreach (var entry in buildingService.GetAllBuildings())
         {
-            BuildingData data = entry.Value;
-            double rent = GameMath.CalculateRentPerTenant(Config, data.Level);
-            // Base rate per second * Multiplier
-            double bldRate = (rent * data.CurrentTenants * _globalMultiplier);
-            totalRatePerSec += bldRate;
+            // BuildingData data = entry.Value;
+            // double rent = GameMath.CalculateRentPerTenant(Config, data.Level);
+            // // Base rate per second * Multiplier
+            // double bldRate = (rent * data.CurrentTenants * _globalMultiplier);
+            // totalRatePerSec += bldRate;
+
+
+
+            // Simply sum up the cached rates we calculated in the loop
+            // This is much more performant than recalculating everything
+            totalRatePerSec += entry.Value.CachedIncomeRatePerSec;
         }
 
         switch (period)
