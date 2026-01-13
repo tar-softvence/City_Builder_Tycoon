@@ -16,5 +16,5 @@ MonoBehaviour:
   NotOwnedLandPrefab: {fileID: 2048824594785146848, guid: c339d61d58741c5498d45d94e43c5a81, type: 3}
   OwnedLandPrefab: {fileID: 2048824594785146848, guid: ad995ccfbfdacc048bf2595ebf4e65ba, type: 3}
   BuildingLevels:
-  - {fileID: 11400000, guid: 9234a0b8c8ca52c48aba4f26e8a1970e, type: 2}
-  - {fileID: 11400000, guid: 5d34760a090d3754086ac8fad64d6581, type: 2}
+  - {fileID: 11400000, guid: c37190253c4ce894892665fc95a62164, type: 2}
+  - {fileID: 11400000, guid: c2548d5ecb4cd104ca2f8974e9e6d688, type: 2}
