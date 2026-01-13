@@ -11,12 +11,12 @@ public class LandUI : MonoBehaviour
     //Details 
     [SerializeField] TMP_Text level;
     [SerializeField] TMP_Text currentTanents;
-    [SerializeField] TMP_Text earnings;
+    [SerializeField] TMP_Text earningRate;
     [SerializeField] TMP_Text life;
 
-    [Header("Buttons")]
-    [SerializeField] Button BuyButton;
-    [SerializeField] GameObject buyButtonParentPanel;
+    // [Header("Buttons")]
+    // [SerializeField] Button BuyButton;
+    // [SerializeField] GameObject buyButtonParentPanel;
 
     [Header("Detail Panel Settings")]
     [SerializeField] DetailButtonPanel detailButtonPanelPrefab;
@@ -77,6 +77,12 @@ public class LandUI : MonoBehaviour
 
                 if (bData != null)
                 {
+                    //info setup
+                    level.text = bData.Level.ToString();
+                    currentTanents.text = bData.CurrentTenants.ToString();
+                    double incomePerSec = EarningService.Instance.GetBuildingIncomeRate(bData.ParentPlotID, EarningService.TimePeriod.Second);
+                    earningRate.text = $"{incomePerSec:F0}$/sec";
+
                     // --- STATISTICS PANEL ---
                     string statsInfo = $"Level: {bData.Level} | Tenants: {bData.CurrentTenants}\n" +
                                        $"Stored: <color={UIColors.MoneyGreen}>${bData.StoredIncome:N2}</color>";

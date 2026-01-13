@@ -53,45 +53,49 @@ public class LandService : MonoBehaviour
 
         // TODO: HERE load your save file (JSON/Binary) into a temp dictionary first
         // var savedData = SaveSystem.Load(); 
+        // 1. Get data SPECIFIC to this active scene
+        CitySaveData citySaveData = SaveManager.Instance?.GetCurrentCityData();
 
         foreach (Land land in sceneLands)
         {
-            // 1. Safety Check
-            if (land.Data == null)
-            {
-                Debug.LogError($"[LandService] Critical Error: Land object '{land.name}' at {land.transform.position} is missing its 'Land Data SO' assignment!");
-                continue;
-            }
-
+            // Safety check
+            if (land.Data == null) continue;
             if (string.IsNullOrEmpty(land.PlotID)) land.GenerateID();
 
-            // 2. Determine Initial State (Source of Truth Resolution)
-            // Start with Inspector default
-            bool finalOwnershipState = land.IsOwned;
+            // Default State (Inspector)
+            bool isOwned = land.IsOwned;
+            BuildingSaveData buildingToLoad = null;
 
-            // IF we had save data, we would override it here:
-            // if (savedData.ContainsKey(land.PlotID)) 
-            //      finalOwnershipState = savedData[land.PlotID].IsOwned;
+            // 2. Try to match PlotID within THIS City's save data
+            if (citySaveData != null && citySaveData.Lands.TryGetValue(land.PlotID, out LandSaveData savedLand))
+            {
+                // Found match in save file!
+                isOwned = savedLand.IsOwned;
+                buildingToLoad = savedLand.Building;
+            }
 
-            // 3. Create Master Data
+            // 3. Create Runtime Data
             if (!_landDatabase.ContainsKey(land.PlotID))
             {
                 var newData = new LandData
                 {
                     PlotID = land.PlotID,
                     Grade = land.Data.Grade,
-                    IsOwned = finalOwnershipState
+                    IsOwned = isOwned
                 };
 
                 _landDatabase.Add(land.PlotID, newData);
 
-                // 4. CRITICAL: Force the View (Land.cs) to match the Data
-                // This ensures that if the SaveFile says "Owned", the visual updates immediately.
-                land.ForceUpdateState(finalOwnershipState);
-            }
-            else
-            {
-                Debug.LogWarning($"Duplicate PlotID found: {land.PlotID} on {land.name}");
+                // 4. Update Visuals
+                land.ForceUpdateState(isOwned);
+
+                // 5. Load Building (if owned and building data exists)
+                if (isOwned && buildingToLoad != null)
+                {
+                    // Call the helper we made in BuildingService earlier
+                    BuildingService.Instance.LoadSavedBuilding(land, buildingToLoad);
+                    newData.CurrentBuilding = BuildingService.Instance.GetBuildingData(land.PlotID);
+                }
             }
         }
     }
@@ -173,4 +177,5 @@ public class LandService : MonoBehaviour
 
 
     public LandData GetData(string id) => _landDatabase.TryGetValue(id, out var data) ? data : null;
+    public Dictionary<string, LandData> GetAllLandData() => _landDatabase;
 }
