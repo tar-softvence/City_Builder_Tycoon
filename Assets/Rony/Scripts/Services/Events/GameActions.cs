@@ -40,10 +40,5 @@ public static class GameActions
 
     // Overload for convenience if you only have the ID (optional, requires Service lookup if needed, 
     // but usually UI has the Building object. If not, stick to passing the View)
-    public static void RequestCollectRent(string plotID)
-    {
-        // Note: Your current BuildingEvent requires a 'SubjectView' (Building). 
-        // If you only have an ID, you might need to refactor Event to accept ID, 
-        // or look it up here. For now, we assume the UI has the building reference.
-    }
+    
 }
