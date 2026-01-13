@@ -8,5 +8,14 @@ public class BuildingData
     public bool HasManager;
     public double MaxIncomeStorage;
 
-    public GameBalanceConfig Config; // <--- Add this
+    // --- NEW: Per-Building Multiplier Data ---
+    public double LocalMultiplier = 1.0;
+    public float BoostTimeRemaining = 0f; // In seconds
+    // -----------------------------------------
+
+    public double CachedIncomeRatePerSec;
+
+
+
+
 }

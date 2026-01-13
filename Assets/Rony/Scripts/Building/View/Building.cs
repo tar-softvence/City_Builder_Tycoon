@@ -18,10 +18,10 @@ public class Building : MonoBehaviour, ISelectable
 
     public string PlotID;
 
-    public void ApplyData(BuildingData data)
-    {
-        ui.UpdateUI(data);
-    }
+    private BuildingData _liveData;
+
+
+
 
     /// <summary>
     /// Links the building to its specific plot of land.
@@ -38,9 +38,25 @@ public class Building : MonoBehaviour, ISelectable
     // The Service calls this to update the visual/UI state
     public void UpdateView(BuildingData state)
     {
+        _liveData = state;
         CurrentLevel = state.Level;
         VisualIncome = state.StoredIncome;
         // Update UI bars, 3D models, or text labels here
+
+        // Pass the data reference to UI once. 
+        // The UI class now monitors this object itself.
+        if (ui != null)
+        {
+            ui.Initialize(_liveData);
+        }
+    }
+
+    public void ApplyData(BuildingData data)
+    {
+        // This can now be empty or used to update 3D meshes (like adding floors)
+        // The UI bar handles itself via the Update loop in UIBuilding.cs
+        _liveData = data;
+        VisualIncome = data.StoredIncome;
     }
 
 
