@@ -14,6 +14,7 @@ public class BuildingData
     // -----------------------------------------
 
     public double CachedIncomeRatePerSec;
+    public int MaxTenants => 10 * Level;
 
 
 

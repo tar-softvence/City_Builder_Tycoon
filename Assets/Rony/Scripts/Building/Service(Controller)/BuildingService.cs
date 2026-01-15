@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class BuildingService : MonoBehaviour
 {
     public static BuildingService Instance { get; private set; }
+    public TenantManagerSO defaultTenantManagerSO;
 
     // Master list: Key is PlotID, Value is the data
     private Dictionary<string, BuildingData> _buildingDatabase = new Dictionary<string, BuildingData>();
@@ -47,7 +48,11 @@ public class BuildingService : MonoBehaviour
 
         // 4. Initialize the View
         view.UpdateView(newData);
+        // Add TenantManager to this building
+        AddTenantManager(view, newData);
+
     }
+
 
     void Update()
     {
@@ -224,6 +229,26 @@ public class BuildingService : MonoBehaviour
         view.ParentLand.SetBuilding(view);
         view.UpdateView(GetBuildingData(plotID));
     }
+
+    public void AddTenantManager(Building building, BuildingData data)
+    {
+        GameObject managerGO = new GameObject($"{building.PlotID}_TenantManager");
+        managerGO.transform.SetParent(building.transform);
+
+        TenantManager manager = managerGO.AddComponent<TenantManager>();
+
+        // Assign the default SO
+        if (defaultTenantManagerSO == null)
+        {
+            Debug.LogError("BuildingService: Default TenantManagerSO is not assigned in the Inspector!");
+            return; // stop to avoid crash
+        }
+
+        manager.managerSO = defaultTenantManagerSO;
+        manager.Initialize(building, data);
+    }
+
+
 
     /// <summary>
     /// Reconstructs a building from Save Data (No cost, no construction event)
