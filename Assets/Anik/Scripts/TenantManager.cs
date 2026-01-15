@@ -67,6 +67,7 @@ public class TenantManager : MonoBehaviour, IBuildingManager
 
     private int GetMaxTenants()
     {
-        return _data.Level * managerSO.MaxTenantsPerLevel;
+        return _data.MaxTenants;
     }
+
 }

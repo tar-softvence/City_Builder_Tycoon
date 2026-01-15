@@ -12,6 +12,4 @@ public class TenantManagerSO : ScriptableObject
     [Tooltip("Time in seconds between tenant increases")]
     public float TickInterval = 5f;
 
-    [Tooltip("Maximum tenants multiplier per building level")]
-    public int MaxTenantsPerLevel = 10;
 }
