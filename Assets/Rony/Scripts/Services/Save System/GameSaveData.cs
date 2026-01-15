@@ -30,4 +30,6 @@ public class BuildingSaveData
     public double StoredIncome;
     public double LocalMultiplier;
     public float BoostTimeRemaining;
+    public TenantManagerData TenantManagerData;
+
 }

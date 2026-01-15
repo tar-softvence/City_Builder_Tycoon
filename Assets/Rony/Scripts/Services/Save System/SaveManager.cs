@@ -62,8 +62,11 @@ public class SaveManager : MonoBehaviour, ISaveService
                     CurrentTenants = liveBuild.CurrentTenants,
                     StoredIncome = liveBuild.StoredIncome,
                     LocalMultiplier = liveBuild.LocalMultiplier,
-                    BoostTimeRemaining = liveBuild.BoostTimeRemaining
+                    BoostTimeRemaining = liveBuild.BoostTimeRemaining,
+
+                    TenantManagerData = liveBuild.TenantManagerData
                 };
+
             }
 
             cityData.Lands.Add(plotID, landSave);

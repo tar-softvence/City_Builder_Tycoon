@@ -1,6 +1,7 @@
 [System.Serializable]
 public class BuildingData
 {
+
     public string ParentPlotID;
     public int Level = 1;
     public int CurrentTenants;
@@ -14,7 +15,10 @@ public class BuildingData
     // -----------------------------------------
 
     public double CachedIncomeRatePerSec;
-    public int MaxTenants => 10 * Level;
+    public int MaxTenants = 100;
+
+    // ------- managers
+    public TenantManagerData TenantManagerData;
      
 
 

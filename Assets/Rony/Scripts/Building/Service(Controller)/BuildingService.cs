@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
 public class BuildingService : MonoBehaviour
@@ -21,37 +21,31 @@ public class BuildingService : MonoBehaviour
     /// </summary>
     public void RegisterNewBuilding(string plotID, Building view, BuildingDataSO initialSO)
     {
-        // 1. Create the Data (The Truth)
         BuildingData newData = new BuildingData
         {
             ParentPlotID = plotID,
             Level = initialSO.Level,
-            CurrentTenants = initialSO.InitialTenants,
-            StoredIncome = 0
+            CurrentTenants = 0,
+            StoredIncome = 0,
+            LocalMultiplier = 1.0,
+            BoostTimeRemaining = 0f,
+            MaxIncomeStorage = GameMath.CalculateIncomeLimit(Config, initialSO.Level)
         };
 
         _buildingDatabase[plotID] = newData;
         _activeViews[plotID] = view;
 
-        // --- ADD THESE TWO STEPS ---
-
-        // 2. Tell the Land about the Building so land.CurrentBuilding isn't null
         if (view.ParentLand != null)
         {
             view.ParentLand.SetBuilding(view);
         }
 
-        // 3. Notify the UI (and others) that construction is finished
-        EventBus<LandEvent>.Raise(new LandEvent(view.ParentLand, LandEventType.BuildingConstructed));
-
-        // ---------------------------
-
-        // 4. Initialize the View
         view.UpdateView(newData);
-        // Add TenantManager to this building
-        AddTenantManager(view, newData);
 
+        // ✅ ADD MANAGER
+        AddTenantManager(view, newData);
     }
+
 
 
     void Update()
