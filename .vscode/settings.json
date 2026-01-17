@@ -67,5 +67,5 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "CItyBuilderTycoon.slnx"
+    "dotnet.defaultSolution": "City_Builder_Tycoon.slnx"
 }
